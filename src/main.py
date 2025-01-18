@@ -2,7 +2,7 @@ from textnode import *
 #Import classes
 
 def main():
-    test = TextNode("Hello world", TextType.BOLD_TEXT, "https://www.heyho.com") 
+    test = TextNode("Hello world", TextType.BOLD, "https://www.heyho.com") 
     #set the second atribute as Enum class.
     print(test)
 

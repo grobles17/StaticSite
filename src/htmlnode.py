@@ -20,7 +20,7 @@ class HTMLNode():
         return f"HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})"
 
 
-    def to_HTML(self):
+    def to_html(self):
         raise NotImplementedError("Not implemented to_HTML method")
     
     def props_to_html(self):
@@ -39,4 +39,6 @@ node = HTMLNode(tag= "a",
                         "target": "_blank"
                         })
 
-print(node)
+if __name__ == "__main__":
+    print(node)
+    print(node.props_to_html())

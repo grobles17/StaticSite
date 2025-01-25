@@ -1,7 +1,40 @@
 import unittest
 
 from inline_markdown import *
-from textnode import TextNode, TextType
+from textnode import TextNode, TextType, text_node_to_html_node
+
+class TestRegExReader(unittest.TestCase):
+    def test_link_image(self):
+        text = "[Check this out](https://example.com) ![Image](https://example.com/image.jpg)"
+        link = extract_markdown_links(text)
+        image = extract_markdown_images(text)
+        self.assertEqual([("Check this out", "https://example.com")], link)
+        self.assertEqual([("Image", "https://example.com/image.jpg")], image)
+
+    def test_empty(self):
+        text = ""
+        link = extract_markdown_links(text)
+        image = extract_markdown_images(text)
+        self.assertEqual([], link)
+        self.assertEqual([], image)
+    
+    def test_extract_markdown_links(self):
+        matches = extract_markdown_links(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
+        )
+        self.assertListEqual([], matches)
+
+    def test_extract_markdown_links(self):
+        matches = extract_markdown_links(
+            "This is text with a [link](https://boot.dev) and [another link](https://blog.boot.dev)"
+        )
+        self.assertListEqual(
+            [
+                ("link", "https://boot.dev"),
+                ("another link", "https://blog.boot.dev"),
+            ],
+            matches,
+        )
 
 class TestMarkdownReader(unittest.TestCase):
     def test_finalhtml(self):

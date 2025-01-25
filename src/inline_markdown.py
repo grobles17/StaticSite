@@ -1,4 +1,6 @@
-from textnode import TextType, TextNode, text_node_to_html_node
+from textnode import TextType, TextNode
+import re #regular expression modules 
+
 def find_substring(text: str, substring: str)-> list[int]:
     """Scans a text to return a list of ints with the indexes where a given substring is found.
     If either text or substring are empty, it returns an empty list"""
@@ -37,7 +39,13 @@ def split_nodes_delimiter(nodes: list[TextNode], delimiter: str, text_type: Text
                 new_nodes.append(TextNode(text, TextType.TEXT))
     return new_nodes
             
+def extract_markdown_images(text):
+    texts = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text) #each () w/o the escape \, is a match group
+    return texts
 
+def extract_markdown_links(text):
+    texts = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text) #(?>!xxx) xxx CANNOT precede the match
+    return texts
 
 if __name__ == "__main__":  
     node = TextNode("**bold** and *italic*", TextType.TEXT)
@@ -45,3 +53,8 @@ if __name__ == "__main__":
     print(new_nodes)
     new_nodes = split_nodes_delimiter(new_nodes, "*", TextType.ITALIC)
     print(new_nodes)
+        
+    text = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
+    print(extract_markdown_images(text))
+    #text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
+    print(extract_markdown_links(text))

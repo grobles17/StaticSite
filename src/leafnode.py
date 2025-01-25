@@ -14,9 +14,8 @@ class LeafNode(HTMLNode):
     def __repr__(self):
         return f"LeafNode({self.tag}, {self.value}, {self.props})"
 
-    
 node = LeafNode(tag= "a", value= "link", props= {"href": "https://www.google.com"})
 
 if __name__ == "__main__":
     print(node.to_html())
-    print(node.props)
+    print(node)
